@@ -7,10 +7,12 @@ describe('utils', () => {
       const projection = getProjection({
         selectionSet: {
           selections: [{
+            kind: 'Field',
             name: {
               value: 'foo'
             }
           }, {
+            kind: 'Field',
             name: {
               value: 'bar'
             }

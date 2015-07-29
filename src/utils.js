@@ -6,17 +6,20 @@
  */
 function reducer(selections, initial) {
   return selections.reduce((projs, selection) => {
-    if (selection.kind === 'InlineFragment') {
-      return {
-        ...projs,
-        ...reducer(selection.selectionSet.selections, {}),
-      };
+    switch (selection.kind) {
+      case 'Field':
+        return {
+          ...projs,
+          [selection.name.value]: 1,
+        };
+      case 'InlineFragment':
+        return {
+          ...projs,
+          ...reducer(selection.selectionSet.selections, {}),
+        };
+      default:
+        throw 'Unsupported query';
     }
-
-    return {
-      ...projs,
-      [selection.name.value]: 1,
-    };
   }, initial);
 }
 
