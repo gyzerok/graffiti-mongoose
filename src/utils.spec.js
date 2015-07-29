@@ -28,10 +28,17 @@ describe('utils', () => {
       const projection = getProjection({
         selectionSet: {
           selections: [{
-            name: {
-              value: 'foo'
+            kind: "InlineFragment",
+            selectionSet: {
+              selections: [{
+                kind: 'Field',
+                name: {
+                  value: 'foo'
+                }
+              }]
             }
           }, {
+            kind: "Field",
             name: {
               value: 'bar'
             }
