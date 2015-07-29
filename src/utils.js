@@ -1,10 +1,11 @@
 /**
- * Recursevly reduce selectionSet
- * @param {Array} selections
- * @param {Object} initial
+ * Generate projection object for mongoose
+ * TODO: Handle sub-documents
+ * @param  {Object} fieldASTs
  * @return {Project}
  */
-function reducer(selections, initial) {
+export function getProjection(fieldASTs) {
+  const { selections } = fieldASTs.selectionSet;
   return selections.reduce((projs, selection) => {
     switch (selection.kind) {
       case 'Field':
@@ -15,21 +16,10 @@ function reducer(selections, initial) {
       case 'InlineFragment':
         return {
           ...projs,
-          ...reducer(selection.selectionSet.selections, {}),
+          ...getProjection(selection),
         };
       default:
         throw 'Unsupported query';
     }
-  }, initial);
-}
-
-/**
- * Generate projection object for mongoose
- * TODO: Handle sub-documents
- * @param  {Object} fieldASTs
- * @return {Project}
- */
-export function getProjection(fieldASTs) {
-  const { selections } = fieldASTs.selectionSet;
-  return reducer(selections);
+  }, {});
 }
