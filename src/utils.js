@@ -26,7 +26,7 @@ function reducer(selections, initial) {
  * @param  {Object} fieldASTs
  * @return {Project}
  */
-export function getProjections(fieldASTs) {
+export function getProjection(fieldASTs) {
   const { selections } = fieldASTs.selectionSet;
   return reducer(selections);
 }
